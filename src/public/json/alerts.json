@@ -1,0 +1,12 @@
+[
+  {
+    "message": "This is only a test",
+    "background": "darkblue",
+    "color": "white"
+  },
+  {
+    "message": "Site maintenance at 12 AM UTC.",
+    "background": "crimson",
+    "color": "white"
+  }
+]
