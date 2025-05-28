@@ -14,7 +14,7 @@ export default class ProductDetails {
 
     this.renderProductDetails();
     document
-      .getElementById("addToCart")
+      .getElementById("#add-to-cart")
       .addEventListener("click", this.addProductToCart.bind(this));
   }
 
@@ -22,14 +22,20 @@ export default class ProductDetails {
   // add product to cart
   addProductToCart() {
     const cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
-    setLocalStorage("so-cart", cartItems);
+    const existing = cartItems.find(item => item.Id === this.product.Id);
+
+    if (!existing) {
+      cartItems.push(this.product);
+      setLocalStorage("so-cart", cartItems);
+    } else {
+      alert("Item already in cart");
+    }
   }
 
-    // render product details
-    renderProductDetails() {
-      productDetailsTemplate(this.product);
-    }
+  // render product details
+  renderProductDetails() {
+    productDetailsTemplate(this.product);
+  }
 }
 
 
