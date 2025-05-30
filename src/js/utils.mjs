@@ -5,6 +5,21 @@ export function qs(selector, parent = document) {
 // or a more concise version if you are into that sort of thing:
 // export const qs = (selector, parent = document) => parent.querySelector(selector);
 
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach(alert => alert.remove());
+}
+
+
+export function alertMessage(message, scroll = true) {
+  const alertBox = document.createElement("div");
+  alertBox.className = "alert";
+  alertBox.innerHTML = message;
+  document.body.prepend(alertBox);
+  if (scroll) window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+
 // retrieve data from localstorage
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
@@ -13,6 +28,7 @@ export function getLocalStorage(key) {
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
+
 // set a listener for both touchend and click
 export function setClick(selector, callback) {
   qs(selector).addEventListener("touchend", (event) => {
@@ -26,12 +42,12 @@ export function setClick(selector, callback) {
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get('product');
+  const product = urlParams.get(param);
   return product;
 }
 
-export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
-  const htmlStrings = list.map(template);
+export function renderListWithTemplate(templateFn, parentElement, list, position = "afterbegin", clear = false) {
+  const htmlStrings = list.map(templateFn);
 
   // check if clear is true
   // if so, clear the parent element
@@ -45,7 +61,7 @@ export function renderListWithTemplate(template, parentElement, list, position =
 
 
 export function renderWithTemplate(template, parentElement, data, callback) {
-  parentElement.innerHTML = template;
+  parentElement.insertAdjacentHTML("afterbegin", template);
 
   if (callback) {
     callback(data);
